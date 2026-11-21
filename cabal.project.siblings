@@ -8,3 +8,4 @@ optional-packages:
   ../streamly-http
   ../streamly-http-tls
   ../streamly-network-tls
+  ../streamly-network-tcp

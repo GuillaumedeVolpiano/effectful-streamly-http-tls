@@ -1,6 +1,6 @@
 cabal-version:   3.12
 name:            effectful-streamly-http-tls
-version:         0.1.0.0
+version:         0.1.0.1
 synopsis:        The HTTP effect of effectful-streamly-http, over TLS too
 description:
   An interpreter for the HTTP effect of effectful-streamly-http that
@@ -52,7 +52,7 @@ library
     , effectful-streamly-http  ^>=0.1
     , streamly-bytestring      ^>=0.2.3
     , streamly-core            ^>=0.3.3
-    , streamly-http            ^>=0.2
+    , streamly-http            ^>=0.3
     , streamly-http-tls        ^>=0.2
     , streamly-network-tls     ^>=0.2
     , text                     ^>=2.1

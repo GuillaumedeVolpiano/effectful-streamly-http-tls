@@ -23,7 +23,9 @@ main = do
 `runHttp` takes the authorities trusted to sign the certificates of the
 servers (`SystemCertificates`, or `CertificatesFrom` a file in PEM) and the
 limits of time and size. A certificate that is not accepted is a
-`TlsFailed`.
+`TlsFailed`. The connections are kept from one request to the next for
+each server as long as the interpreter runs, which over TLS spares a
+handshake each time.
 
 ## Building
 

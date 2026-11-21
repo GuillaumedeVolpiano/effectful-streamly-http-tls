@@ -52,6 +52,7 @@ library
     , effectful-streamly-http  ^>=0.1
     , streamly-bytestring      ^>=0.2.3
     , streamly-core            ^>=0.3.3
+    , streamly-http            ^>=0.2
     , streamly-http-tls        ^>=0.2
     , streamly-network-tls     ^>=0.2
     , text                     ^>=2.1

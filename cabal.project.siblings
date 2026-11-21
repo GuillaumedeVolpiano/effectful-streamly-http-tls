@@ -9,3 +9,4 @@ optional-packages:
   ../streamly-http-tls
   ../streamly-network-tls
   ../streamly-network-tcp
+  ../streamly-flatparse

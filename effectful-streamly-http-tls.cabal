@@ -29,12 +29,20 @@ source-repository head
   location: https://github.com/GuillaumedeVolpiano/effectful-streamly-http-tls.git
 
 common shared
-  default-language:   GHC2024
+  default-language:   GHC2021
   default-extensions:
+    DataKinds
+    DerivingStrategies
+    DisambiguateRecordFields
     DuplicateRecordFields
+    ExplicitNamespaces
+    GADTs
+    LambdaCase
+    MonoLocalBinds
     NoFieldSelectors
     OverloadedRecordDot
     OverloadedStrings
+    RoleAnnotations
     TypeFamilies
 
   ghc-options:
@@ -46,7 +54,7 @@ library
   hs-source-dirs:  src
   exposed-modules: Effectful.HTTP.TLS
   build-depends:
-    , base                     ^>=4.21
+    , base                     >=4.19 && <4.22
     , bytestring               ^>=0.12
     , effectful-core           ^>=2.7.1
     , effectful-streamly-http  ^>=0.1
@@ -66,7 +74,7 @@ test-suite effectful-streamly-http-tls-test
   ghc-options:    -threaded
   build-depends:
     , async                        ^>=2.2
-    , base                         ^>=4.21
+    , base                         >=4.19 && <4.22
     , bytestring                   ^>=0.12
     , effectful-core               ^>=2.7.1
     , effectful-streamly-http      ^>=0.1

@@ -22,15 +22,17 @@ module Effectful.HTTP.TLS
   ) where
 
 import Control.Exception (IOException, displayException, try)
-import Data.ByteString qualified as BS
-import Data.Text qualified as Text
-import Effectful
+import Data.ByteString qualified as BS (concat)
+import Data.Text (pack)
+import Effectful (Eff, IOE, MonadIO (liftIO), UnliftStrategy (SeqUnlift),
+                  withEffToIO, type (:>))
 import Effectful.Dispatch.Dynamic (interpret_)
 import Effectful.Error.Static (Error, throwError)
-import Effectful.HTTP (Http (..), HttpError, HttpFailure (..), Limits, Response (..))
+import Effectful.HTTP (Http (..), HttpError, HttpFailure (..), Limits,
+                       Response (..))
 import Network.TLS (TLSException)
-import Streamly.Data.Stream qualified as Stream
-import Streamly.External.ByteString qualified as StreamlyBS
+import Streamly.Data.Stream (toList)
+import Streamly.External.ByteString (fromArray)
 import Streamly.External.Network.HTTP (Client, withResponseFrom)
 import Streamly.External.Network.HTTP.TLS (withSecureClient)
 import Streamly.External.Network.TLS (Certificates (..))
@@ -51,11 +53,11 @@ through :: (IOE :> es, Error HttpFailure :> es) => Client -> Eff (Http : es) a -
 through client = interpret_ $ \case
   Fetch scheme request ->
     liftIO (try (try (try (withResponseFrom client scheme request whole)))) >>= \case
-      Left (problem :: IOException) -> throwError (ConnectFailed (Text.pack (displayException problem)))
-      Right (Left (problem :: TLSException)) -> throwError (TlsFailed (Text.pack (displayException problem)))
+      Left (problem :: IOException) -> throwError (ConnectFailed (pack (displayException problem)))
+      Right (Left (problem :: TLSException)) -> throwError (TlsFailed (pack (displayException problem)))
       Right (Right (Left (problem :: HttpError))) -> throwError (RequestFailed problem)
       Right (Right (Right response)) -> pure response
   where
     whole response = do
-      arrays <- Stream.toList response.body
-      pure (BS.concat (map StreamlyBS.fromArray arrays) <$ response)
+      arrays <- toList response.body
+      pure (BS.concat (map fromArray arrays) <$ response)

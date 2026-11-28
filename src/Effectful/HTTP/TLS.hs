@@ -6,10 +6,13 @@
 -- An interpreter for the effect of "Effectful.HTTP" that speaks in clear
 -- and over TLS.
 --
--- > import Effectful
+-- > {-# LANGUAGE OverloadedRecordDot #-}
+-- > {-# LANGUAGE OverloadedStrings #-}
+-- > import Effectful (runEff)
 -- > import Effectful.Error.Static (runErrorNoCallStack)
--- > import Effectful.HTTP
--- > import Effectful.HTTP.TLS
+-- > import Effectful.HTTP (HttpFailure, Response (..), Scheme (Https), defaultLimits,
+-- >                        fetch, get)
+-- > import Effectful.HTTP.TLS (Certificates (SystemCertificates), runHttp)
 -- >
 -- > main :: IO ()
 -- > main = do

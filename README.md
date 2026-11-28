@@ -1,17 +1,21 @@
 # effectful-streamly-http-tls
 
 An interpreter for the HTTP effect of
-[effectful-streamly-http](https://github.com/GuillaumedeVolpiano/effectful-streamly-http)
+[effectful-streamly-http](https://hackage.haskell.org/package/effectful-streamly-http)
 that speaks in clear and over TLS, through
-[streamly-http-tls](https://github.com/GuillaumedeVolpiano/streamly-http-tls).
+[streamly-http-tls](https://hackage.haskell.org/package/streamly-http-tls).
 It is a package apart so that programs that only speak in clear need not
 build a TLS stack.
 
 ```haskell
-import Effectful
+{-# LANGUAGE OverloadedRecordDot #-}
+{-# LANGUAGE OverloadedStrings #-}
+
+import Effectful (runEff)
 import Effectful.Error.Static (runErrorNoCallStack)
-import Effectful.HTTP
-import Effectful.HTTP.TLS
+import Effectful.HTTP (HttpFailure, Response (..), Scheme (Https), defaultLimits,
+                       fetch, get)
+import Effectful.HTTP.TLS (Certificates (SystemCertificates), runHttp)
 
 main :: IO ()
 main = do
@@ -29,9 +33,10 @@ handshake each time.
 
 ## Building
 
-The libraries this package is built on are not on Hackage yet:
-`cabal.project` fetches them from GitHub, at their releases. To build
-against copies checked out next to this repository instead, pass
+To build against copies of the libraries this package is built on
+([effectful-streamly-http](https://hackage.haskell.org/package/effectful-streamly-http),
+[streamly-http-tls](https://hackage.haskell.org/package/streamly-http-tls)
+and those under them) checked out next to this repository, pass
 `--project-file=cabal.project.siblings`.
 
-Tested with GHC 9.12.4 and effectful 2.7.1.
+Tested with GHC 9.8.4, 9.10.3 and 9.12.4, and effectful 2.7.1.
